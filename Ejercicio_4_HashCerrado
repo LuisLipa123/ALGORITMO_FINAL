@@ -1,0 +1,104 @@
+/**
+ * Implementación de tabla hash con sondeo lineal (hash cerrado).
+ * Usa eliminación lógica para preservar la secuencia de búsqueda.
+ */
+public class HashCerrado {
+    private static class Entry {
+        Integer key;
+        boolean isDeleted;
+
+        Entry(Integer key) {
+            this.key = key;
+            this.isDeleted = false;
+        }
+    }
+
+    private Entry[] table;
+    private int size;
+
+    /**
+     * Constructor: crea tabla hash de tamaño fijo.
+     */
+    public HashCerrado(int size) {
+        this.size = size;
+        this.table = new Entry[size];
+    }
+
+    /**
+     * Función hash: h(k) = k % size.
+     */
+    private int hash(int key) {
+        return key % size;
+    }
+
+    /**
+     * Inserta una clave usando sondeo lineal.
+     */
+    public void insertar(int key) {
+        int index = hash(key);
+        int originalIndex = index;
+
+        while (table[index] != null && !table[index].isDeleted) {
+            index = (index + 1) % size;
+            if (index == originalIndex) {
+                System.out.println("Tabla llena, no se pudo insertar " + key);
+                return;
+            }
+        }
+
+        table[index] = new Entry(key);
+    }
+
+    /**
+     * Elimina lógicamente una clave (marca como eliminada).
+     */
+    public void eliminar(int key) {
+        int index = hash(key);
+        int originalIndex = index;
+
+        while (table[index] != null) {
+            if (!table[index].isDeleted && table[index].key == key) {
+                table[index].isDeleted = true;
+                System.out.println("Clave " + key + " eliminada lógicamente.");
+                return;
+            }
+            index = (index + 1) % size;
+            if (index == originalIndex) break;
+        }
+        System.out.println("Clave " + key + " no encontrada.");
+    }
+
+    /**
+     * Busca una clave en la tabla.
+     * Retorna true si se encuentra y no está eliminada.
+     */
+    public boolean buscar(int key) {
+        int index = hash(key);
+        int originalIndex = index;
+
+        while (table[index] != null) {
+            if (!table[index].isDeleted && table[index].key == key) {
+                return true;
+            }
+            index = (index + 1) % size;
+            if (index == originalIndex) break;
+        }
+        return false;
+    }
+
+    /**
+     * Muestra el contenido de la tabla hash.
+     */
+    public void mostrarTabla() {
+        System.out.println("Tabla Hash:");
+        for (int i = 0; i < size; i++) {
+            if (table[i] == null) {
+                System.out.println(i + ": vacío");
+            } else if (table[i].isDeleted) {
+                System.out.println(i + ": [eliminado]");
+            } else {
+                System.out.println(i + ": " + table[i].key);
+            }
+        }
+    }
+}
