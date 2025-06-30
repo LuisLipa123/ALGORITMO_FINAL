@@ -1,0 +1,13 @@
+public class MainL {
+    public static void main(String[] args) {
+        LinearProbingHash hashTable = new LinearProbingHash(6);
+
+        int[] valores = {12, 18, 24, 30};
+
+        for (int valor : valores) {
+            hashTable.insert(valor);
+            hashTable.printTable();
+            System.out.println("-------------------------");
+        }
+    }
+}
