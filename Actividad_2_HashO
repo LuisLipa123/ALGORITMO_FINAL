@@ -1,0 +1,65 @@
+public class HashO {
+    private LinkedList<Register>[] table;  // Arreglo de listas enlazadas
+    private int size;
+
+    /**
+     * Constructor que inicializa el arreglo de listas.
+     */
+    public HashO(int size) {
+        this.size = size;
+        this.table = new LinkedList[size];
+        for (int i = 0; i < size; i++) {
+            table[i] = new LinkedList<>();
+        }
+    }
+
+    /**
+     * Función hash que determina la posición en la tabla.
+     */
+    private int hash(int key) {
+        return key % size;
+    }
+
+    /**
+     * Inserta un registro en la posición adecuada.
+     * Los elementos que colisionen se agregan a la lista enlazada correspondiente.
+     */
+    public void insert(Register reg) {
+        int index = hash(reg.getKey());
+        table[index].add(reg);
+    }
+
+    /**
+     * Busca un registro por su clave.
+     */
+    public Register search(int key) {
+        int index = hash(key);
+        for (Register reg : table[index]) {
+            if (reg.getKey() == key) {
+                return reg;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Elimina un registro por su clave.
+     */
+    public void delete(int key) {
+        int index = hash(key);
+        table[index].removeIf(reg -> reg.getKey() == key);
+    }
+
+    /**
+     * Muestra el contenido de la tabla hash.
+     */
+    public void printTable() {
+        for (int i = 0; i < size; i++) {
+            System.out.print("Índice " + i + ": ");
+            for (Register reg : table[i]) {
+                System.out.print(reg + " ");
+            }
+            System.out.println();
+        }
+    }
+}
