@@ -1,0 +1,18 @@
+public class MainS {
+    public static void main(String[] args) {
+        // Crear una tabla hash de tamaño 7
+        SimpleHash hashTable = new SimpleHash(7);
+
+        // Insertar los valores
+        int[] valores = {3, 10, 17, 24};  // Todos caen en el índice 3
+
+        System.out.println(" Insertando valores en la tabla hash:");
+        for (int valor : valores) {
+            System.out.println("Insertando " + valor + "...");
+            hashTable.insert(valor);
+        }
+
+        // Mostrar tabla final
+        hashTable.printTable();
+    }
+}
