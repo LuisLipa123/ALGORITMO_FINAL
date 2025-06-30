@@ -1,0 +1,33 @@
+/**
+ * Clase de prueba para demostrar el funcionamiento del Hash Abierto.
+ */
+public class MainH{
+
+    /**
+     * Método principal que ejecuta el ejemplo.
+     * 
+     * @param args Argumentos de línea de comandos
+     */
+    public static void main(String[] args) {
+        // Crear tabla hash de tamaño 5
+        HashAbierto tabla = new HashAbierto(5);
+
+        // Insertar elementos en la tabla
+        tabla.insertar(10, "Juan");
+        tabla.insertar(15, "Ana");
+        tabla.insertar(20, "Luis");
+        tabla.insertar(25, "Rosa");
+
+        // Mostrar el contenido de la tabla
+        System.out.println("Contenido de la tabla hash:");
+        tabla.mostrarTabla();
+
+        // Buscar clave 20 (esperado: Luis)
+        String resultado20 = tabla.buscar(20);
+        System.out.println("\nBuscar clave 20: " + (resultado20 != null ? resultado20 : "No encontrado"));
+
+        // Buscar clave 30 (esperado: No encontrado)
+        String resultado30 = tabla.buscar(30);
+        System.out.println("Buscar clave 30: " + (resultado30 != null ? resultado30 : "No encontrado"));
+    }
+}
