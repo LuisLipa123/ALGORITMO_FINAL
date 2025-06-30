@@ -1,0 +1,38 @@
+public class TestHash {
+    public static void main(String[] args) {
+        HashC hashTable = new HashC(10);
+
+        Register[] registros = {
+            new Register(34, "Luque"),
+            new Register(3, "Ana"),
+            new Register(7, "Pedro"),
+            new Register(30, "Marta"),
+            new Register(11, "Jose"),
+            new Register(8, "Laura"),
+            new Register(7, "Miguel"), 
+            new Register(23, "David"),
+            new Register(41, "Elena"),
+            new Register(16, "Juan"),
+            new Register(34, "Hector") 
+        };
+
+        for (Register r : registros) {
+            hashTable.insert(r);
+        }
+
+        System.out.println("\n--- Tabla después de inserciones ---");
+        hashTable.printTable();
+
+        System.out.println("\n--- Eliminando clave 30 ---");
+        hashTable.delete(30);
+        hashTable.printTable();
+
+        System.out.println("\n--- Buscando clave 23 ---");
+        Register resultado = hashTable.search(23);
+        if (resultado != null) {
+            System.out.println("Encontrado: " + resultado);
+        } else {
+            System.out.println("Clave 23 no encontrada.");
+        }
+    }
+}
