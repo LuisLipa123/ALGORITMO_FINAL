@@ -1,0 +1,42 @@
+public class SimpleHash {
+    private Integer[] table;  // Arreglo para la tabla hash
+    private int size;
+
+    /**
+     * Constructor que inicializa la tabla hash con tamaño dado.
+     */
+    public SimpleHash(int size) {
+        this.size = size;
+        this.table = new Integer[size];
+    }
+
+    /**
+     * Función hash que calcula el índice: h(x) = x % size
+     */
+    private int hash(int value) {
+        return value % size;
+    }
+
+    /**
+     * Inserta un valor en la tabla hash.
+     * Si hay colisión, lo muestra pero no lo inserta (versión simple sin manejo de colisiones).
+     */
+    public void insert(int value) {
+        int index = hash(value);
+        if (table[index] == null) {
+            table[index] = value;
+        } else {
+            System.out.println(" Colisión al insertar " + value + " en índice " + index + " (ocupado por " + table[index] + ")");
+        }
+    }
+
+    /**
+     * Muestra el contenido de la tabla hash.
+     */
+    public void printTable() {
+        System.out.println("\n Contenido de la tabla hash:");
+        for (int i = 0; i < size; i++) {
+            System.out.println("Índice " + i + ": " + (table[i] != null ? table[i] : "vacío"));
+        }
+    }
+}
