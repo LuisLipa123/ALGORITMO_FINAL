@@ -1,0 +1,46 @@
+public class LinearProbingHash {
+    private Integer[] table;
+    private int size;
+
+    public LinearProbingHash(int size) {
+        this.size = size;
+        this.table = new Integer[size];
+    }
+
+    // Función hash: h(x) = x % size
+    private int hash(int value) {
+        return value % size;
+    }
+
+    /**
+     * Inserta un valor resolviendo colisiones con sondeo lineal.
+     */
+    public void insert(int value) {
+        int index = hash(value);
+        int startIndex = index;
+
+        System.out.println("Insertando " + value + " → índice hash: " + index);
+
+        while (table[index] != null) {
+            System.out.println(" Colisión en índice " + index + " (ocupado por " + table[index] + "), probando siguiente...");
+            index = (index + 1) % size;
+            if (index == startIndex) {
+                System.out.println("La tabla está llena. No se puede insertar " + value);
+                return;
+            }
+        }
+
+        table[index] = value;
+        System.out.println(" Insertado en índice " + index);
+    }
+
+    /**
+     * Muestra el contenido actual de la tabla hash.
+     */
+    public void printTable() {
+        System.out.println("\n Estado actual de la tabla hash:");
+        for (int i = 0; i < size; i++) {
+            System.out.println("Índice " + i + ": " + (table[i] != null ? table[i] : "vacío"));
+        }
+    }
+}
