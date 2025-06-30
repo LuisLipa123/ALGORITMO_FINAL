@@ -1,0 +1,27 @@
+/**
+ * Clase principal para probar eliminación en hash cerrado.
+ */
+public class MainHO {
+    public static void main(String[] args) {
+        HashCerrado tabla = new HashCerrado(7);
+
+        // Insertar claves
+        tabla.insertar(5);  // 5 % 7 = 5
+        tabla.insertar(12); // 12 % 7 = 5 → colisión → 6
+        tabla.insertar(19); // 19 % 7 = 5 → colisión → 6 → colisión → 0
+
+        System.out.println("Tabla inicial:");
+        tabla.mostrarTabla();
+
+        // Eliminar clave 12
+        tabla.eliminar(12);
+
+        // Mostrar tabla después de eliminar
+        System.out.println("\nDespués de eliminar clave 12:");
+        tabla.mostrarTabla();
+
+        // Buscar clave 19
+        boolean encontrada = tabla.buscar(19);
+        System.out.println("\n¿Clave 19 encontrada? " + (encontrada ? "Sí" : "No"));
+    }
+}
