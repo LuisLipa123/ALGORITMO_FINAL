@@ -1,0 +1,101 @@
+import java.util.LinkedList;
+
+/**
+ * Clase que implementa una tabla hash con encadenamiento (hash abierto).
+ */
+public class HashAbierto {
+
+    /**
+     * Clase interna que representa un par clave-valor.
+     */
+    private static class Pair {
+        int key;        // Clave
+        String value;   // Valor asociado a la clave
+
+        public Pair(int key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    private LinkedList<Pair>[] table; // Tabla de listas enlazadas (encadenamiento)
+    private int size;                 // Tamaño de la tabla
+
+    /**
+     * Constructor que inicializa la tabla hash con una capacidad dada.
+     * 
+     * @param size Tamaño de la tabla hash
+     */
+    @SuppressWarnings("unchecked")
+    public HashAbierto(int size) {
+        this.size = size;
+        this.table = new LinkedList[size];
+
+        // Inicializa cada lista enlazada
+        for (int i = 0; i < size; i++) {
+            table[i] = new LinkedList<>();
+        }
+    }
+
+    /**
+     * Función hash: calcula la posición a partir de la clave.
+     * 
+     * @param key Clave
+     * @return Índice en la tabla
+     */
+    private int hash(int key) {
+        return key % size;
+    }
+
+    /**
+     * Inserta una nueva clave con su valor asociado en la tabla.
+     * Si la clave ya existe, actualiza el valor.
+     * 
+     * @param key Clave entera
+     * @param value Nombre o valor asociado
+     */
+    public void insertar(int key, String value) {
+        int index = hash(key);
+
+        // Recorre la lista del índice correspondiente
+        for (Pair p : table[index]) {
+            if (p.key == key) {
+                // Si ya existe, actualiza el valor
+                p.value = value;
+                return;
+            }
+        }
+
+        // Si no existe, agrega el nuevo par
+        table[index].add(new Pair(key, value));
+    }
+
+    /**
+     * Busca el valor asociado a una clave.
+     * 
+     * @param key Clave a buscar
+     * @return Valor asociado, o null si no se encuentra
+     */
+    public String buscar(int key) {
+        int index = hash(key);
+        for (Pair p : table[index]) {
+            if (p.key == key) {
+                return p.value;
+            }
+        }
+        return null; // No se encontró la clave
+    }
+
+    /**
+     * Muestra el contenido de la tabla hash.
+     */
+    public void mostrarTabla() {
+        for (int i = 0; i < size; i++) {
+            System.out.print(i + ": ");
+            for (Pair p : table[i]) {
+                System.out.print("[" + p.key + ", " + p.value + "] ");
+            }
+            System.out.println();
+        }
+    }
+}
