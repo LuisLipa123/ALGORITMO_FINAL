@@ -1,0 +1,107 @@
+public class HashC {
+
+    /**
+     * Clase interna para representar una celda de la tabla hash.
+     */
+    private static class Element {
+        Register register;     // Registro guardado
+        boolean isAvailable;   // Indica si la celda está disponible
+
+        public Element() {
+            this.register = null;
+            this.isAvailable = true;
+        }
+    }
+
+    private Element[] table;   // Arreglo de elementos (la tabla hash)
+    private int size;          // Tamaño de la tabla
+
+    /**
+     * Constructor de la clase HashC.
+     * Inicializa el arreglo de Element con el tamaño indicado.
+     */
+    public HashC(int size) {
+        this.size = size;
+        table = new Element[size];
+        for (int i = 0; i < size; i++) {
+            table[i] = new Element();
+        }
+    }
+
+    /**
+     * Función hash para calcular el índice a partir de la clave.
+     */
+    private int hash(int key) {
+        return key % size;
+    }
+
+    /**
+     * Método para insertar un nuevo registro en la tabla hash.
+     * Usa sondeo lineal para encontrar una celda disponible.
+     */
+    public void insert(Register reg) {
+        int key = reg.getKey();
+        int index = hash(key);
+
+        for (int i = 0; i < size; i++) {
+            int probe = (index + i) % size;
+
+            if (table[probe].isAvailable) {
+                table[probe].register = reg;
+                table[probe].isAvailable = false;
+                return;
+            } else if (table[probe].register.getKey() == key) {
+                System.out.println("Error: clave duplicada " + key);
+                return;
+            }
+        }
+        System.out.println("Tabla llena. No se pudo insertar " + reg);
+    }
+
+    /**
+     * Método para buscar un registro en la tabla por su clave.
+     * Usa sondeo lineal hasta encontrar la clave o determinar que no está.
+     */
+    public Register search(int key) {
+        int index = hash(key);
+        for (int i = 0; i < size; i++) {
+            int probe = (index + i) % size;
+            if (!table[probe].isAvailable && table[probe].register.getKey() == key) {
+                return table[probe].register;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Método para eliminar un registro de forma lógica.
+     * Marca la celda como disponible sin eliminar el objeto Element.
+     */
+    public void delete(int key) {
+        int index = hash(key);
+        for (int i = 0; i < size; i++) {
+            int probe = (index + i) % size;
+            if (!table[probe].isAvailable && table[probe].register.getKey() == key) {
+                table[probe].isAvailable = true;
+                System.out.println("Clave " + key + " eliminada lógicamente.");
+                return;
+            }
+        }
+        System.out.println("Clave " + key + " no encontrada.");
+    }
+
+    /**
+     * Método para imprimir el estado actual de la tabla hash.
+     */
+    public void printTable() {
+        System.out.println("Contenido actual de la tabla hash:");
+        for (int i = 0; i < size; i++) {
+            System.out.print(i + ": ");
+            if (!table[i].isAvailable) {
+                System.out.println(table[i].register);
+            } else {
+                System.out.println("Vacío");
+            }
+        }
+    }
+}
